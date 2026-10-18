@@ -6,7 +6,7 @@ double print_gpu_info(void) {
     cudaDeviceProp prop;
     CHECK_ERROR(cudaGetDeviceProperties(&prop, 0));
     printf("GPU name: %s\n", prop.name);
-    printf("SM amount: %d\n", prop.multiProcessorCount);
+    printf("SM count: %d\n", prop.multiProcessorCount);
     printf("Memory clock rate: %d kHz\n", prop.memoryClockRate);
     printf("Memory bus width: %d bits\n", prop.memoryBusWidth);
     printf("L2 cache size: %d bytes\n", prop.l2CacheSize);

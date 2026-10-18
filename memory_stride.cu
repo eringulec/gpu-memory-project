@@ -13,7 +13,7 @@
 #define THREADS_PER_BLOCK 128
 
 // threads copy each element at thread index * stride from device source to device destination
-__global__ void memory_copy_strided (float *source, float *destination, int size, int stride) {
+__global__ void memory_copy_strided(float *source, float *destination, int size, int stride) {
     int i = stride * (threadIdx.x + blockDim.x * blockIdx.x);
 
     if (i < size) {
@@ -56,7 +56,7 @@ void test_memory_stride(double theoretical_max) {
     // goes to csv file
     fprintf(file, "Stride,Time (ms),Bandwidth (GB/s),Percent of Theoretical Max\n");
     // goes to terminal
-    printf("Stride,Time (ms),Bandwidth (GB/s),Percent of Theoretical Max\n");
+    printf("Stride, Time (ms), Bandwidth (GB/s), Percent of Theoretical Max\n");
 
     // creates the start and stop events used for recording timestamps before and after kernel runs, and measure runtime
     cudaEvent_t start, stop;

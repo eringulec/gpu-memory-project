@@ -53,7 +53,7 @@ void test_max_bandwidth(double theoretical_max) {
     // goes to csv file
     fprintf(file, "Array size (bytes),Time (ms),Bandwidth (GB/s),Percent of Theoretical Max\n");
     // goes to terminal
-    printf("Array size (bytes),Time (ms),Bandwidth (GB/s),Percent of Theoretical Max\n");
+    printf("Array size (bytes), Time (ms), Bandwidth (GB/s), Percent of Theoretical Max\n");
 
     // calculates the total number of blocks needed to make sure every element can get a thread
     int blocks = (max_size) / THREADS_PER_BLOCK;
