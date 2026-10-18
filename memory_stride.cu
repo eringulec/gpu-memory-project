@@ -6,7 +6,8 @@
 // lowering the memory speed.
 #include "common.h"
 
-// array size of 128MB for each, much larger than L2 cache, so that every run reads and writes to main memory instead
+// array size of 128MB for each, much larger than L2 cache, so that every run reads and writes to main
+// memory instead
 #define MAX_BYTES (128 * 1024 * 1024)
 
 // 128 threads per block = 4 warps of 32 threads
@@ -21,7 +22,8 @@ __global__ void memory_copy_strided(float *source, float *destination, int size,
     }
 }
 
-// runs the strided kernel for values 1 through 32 for stride, measuring the memory speed and verifying the results
+// runs the strided kernel for values 1 through 32 for stride, measuring the memory speed and verifying
+// the results
 void test_memory_stride(double theoretical_max) {
     // CPU arrays and GPU arrays
     float *host_source;
@@ -58,7 +60,8 @@ void test_memory_stride(double theoretical_max) {
     // goes to terminal
     printf("Stride, Time (ms), Bandwidth (GB/s), Percent of Theoretical Max\n");
 
-    // creates the start and stop events used for recording timestamps before and after kernel runs, and measure runtime
+    // creates the start and stop events used for recording timestamps before and after kernel runs
+    // and measures runtime
     cudaEvent_t start, stop;
     CHECK_ERROR(cudaEventCreate(&start));
     CHECK_ERROR(cudaEventCreate(&stop));
@@ -77,10 +80,12 @@ void test_memory_stride(double theoretical_max) {
             blocks++;
         }
 
-        // resets the GPU destination array to 0, so old results from the previous stride don't affect the new check
+        // resets the GPU destination array to 0, so old results from the previous stride don't
+        // affect the new check
         CHECK_ERROR(cudaMemset(device_destination, 0 , MAX_BYTES));
 
-        // does 3 warmup runs that aren't timed to make sure first few slow runs don't affect the timed values
+        // does 3 warmup runs that aren't timed to make sure first few slow runs don't affect
+        // the timed values
         for (int i = 0; i < 3; i++) {
             memory_copy_strided<<<blocks, THREADS_PER_BLOCK>>>(device_source, device_destination, max_size, stride);
         }
@@ -116,7 +121,8 @@ void test_memory_stride(double theoretical_max) {
         // brings GPU destination array values to CPU destination array
         CHECK_ERROR(cudaMemcpy(host_destination, device_destination, MAX_BYTES, cudaMemcpyDeviceToHost));
 
-        // checks if kernel copied every "stride"th element from device_source to device_destination correctly
+        // checks if kernel copied every "stride"th element from device_source to
+        // device_destination correctly
         for (size_t i = 0; i < max_size; i += stride) {
             if (host_destination[i] != host_source[i]) {
                 fprintf(stderr, "Copy is incorrect at the index %d\n", (int) i);

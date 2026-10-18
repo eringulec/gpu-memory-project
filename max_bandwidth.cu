@@ -1,9 +1,9 @@
-// measures the fastest memory speed a kernel actually reaches and
-// compares the value to the theoretical max calculated based on
-// the GPU's memory clock rate and bus width.
+// measures the fastest memory speed a kernel actually reaches and compares the value
+// to the theoretical max calculated based on the GPU's memory clock rate and bus width.
 #include "common.h"
 
-// array size of 128MB for each, much larger than L2 cache, so that every run reads and writes to main memory instead
+// array size of 128MB for each, much larger than L2 cache, so that every run reads and
+// writes to main memory instead
 #define MAX_BYTES (128 * 1024 * 1024)
 
 // 128 threads per block = 4 warps of 32 threads
@@ -18,7 +18,8 @@ __global__ void memory_copy(float *source, float *destination, int size) {
     }
 }
 
-// times the kernel to measure the memory speed, compares it with the theoretical max, saves the result, and verifies the copy of each element
+// times the kernel to measure the memory speed, compares it with the theoretical max,
+// saves the result, and verifies the copy of each element
 void test_max_bandwidth(double theoretical_max) {
     // CPU arrays and GPU arrays
     float *host_source;
@@ -61,13 +62,15 @@ void test_max_bandwidth(double theoretical_max) {
         blocks++;
     }
 
-    // does 3 warmup runs that aren't timed to make sure first few slow runs don't affect the timed values
+    // does 3 warmup runs that aren't timed to make sure first few slow runs don't affect the
+    // timed values
     for (int i = 0; i < 3; i++) {
         memory_copy<<<blocks, THREADS_PER_BLOCK>>>(device_source, device_destination, max_size);
     }
     CHECK_ERROR(cudaGetLastError());
 
-    // creates the start and stop events used for recording timestamps before and after kernel runs, and measure runtime
+    // creates the start and stop events used for recording timestamps before and after kernel
+    // runs, and measure runtime
     cudaEvent_t start, stop;
     CHECK_ERROR(cudaEventCreate(&start));
     CHECK_ERROR(cudaEventCreate(&stop));
